@@ -1,0 +1,36 @@
+
+<ul class="collection col s12 m12 l10" *ngFor="let post of topPosts">
+        <li class="collection-item avatar">
+            <img src="http://placehold.it/50x50" alt="" class="circle">
+            <span class="title">{{post.username}}</span>
+            <p class="time">{{postService.timeFormat(post.created)}}
+                <br>country
+            </p>
+    
+        </li>
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="postImage" src="http://placehold.it/50x50" alt="image">
+                    </div>
+                    <div class="card-content">
+                        <p>{{post.post}}</p>
+                    </div>
+                    <div class="card-action">
+                        <i (click)="likePost(post)"
+                            [ngClass]="(!likedPostColor(post.likes,user.username))? 'unLiked':'liked'"
+                            class="material-icons">thumb_up</i>
+                        <span class="iconSpan">
+                            {{post.totalLikes}}
+                        </span>
+                        <i class="material-icons" (click)="addComment(post)"
+                            [ngClass]="(!likedPostColor(post.comments,user.username))? 'unLiked':'liked'">chat</i>
+                        <span class="iconSpan">
+                            {{post.comments.length}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ul>

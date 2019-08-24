@@ -1,0 +1,29 @@
+<app-toolbar></app-toolbar>
+<div class="container" style="margin-top: 30px;">
+    <div class="row">
+        <div class="col s12 m4 l3">
+            <app-side></app-side>
+        </div>
+
+        <div class="col s12 m8 l9">
+            <ul class="collection col s12 m10" *ngIf="notifications.length>0">
+                <li class="collection-item avatar" *ngFor="let notify of notifications">
+                    <img class="circle"src="http://placehold.it/50x50" alt="image">
+                    <span class="title">{{notify.message}}</span>
+                    <a class="secondary-content">
+                        <i class="material-icons" *ngIf="!notify.read">radio_button_checked</i>
+                        <i class="material-icons" *ngIf="notify.read">panorama_fish_eye</i>
+                    </a>
+                    <p class="time">{{timeFormatter(notify.created)}}</p>
+                    <div>
+                        <i class="material-icons"(click)="markAsRead(notify)"[ngClass]="notify.read?'disabled':'notDisabled'">check</i>
+                        <i class="material-icons" (click)="deleteNotification(notify)">delete_forever</i>
+                    </div>
+                </li>
+            </ul>
+            <p class="text" *ngIf="notifications.length<=0">
+                You have no notifications
+            </p>
+        </div>
+    </div>
+</div>

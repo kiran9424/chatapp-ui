@@ -22,7 +22,7 @@
                             <button class="btn" *ngIf="!checkIfUserIsFollowing(users, people._id)" (click)="followUser(people)">Follow</button>
                             <button class="btn disabled following" *ngIf="checkIfUserIsFollowing(users, people._id)">Following</button>
                             <a class="secondary-content">
-                                <i class="material-icons">chat</i>
+                                <i class="material-icons"[routerLink]="['/chat',people.username]">chat</i>
                             </a>
                         </div>
                     </div>

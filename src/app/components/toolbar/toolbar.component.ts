@@ -18,6 +18,8 @@ export class ToolbarComponent implements OnInit {
   notifications = [];
   socket: any;
   count =[];
+  chatList =[];
+  msgCount=[];
   constructor(private tokenService: TokenService, private router: Router, private peopleService: PeopleService) {
 
     this.socket = io('http://localhost:8080')
@@ -27,9 +29,16 @@ export class ToolbarComponent implements OnInit {
     this.user = this.tokenService.getDecodedToken().data;
     const element = document.querySelectorAll('.dropdown-trigger');
     M.Dropdown.init(element, {
-      alignment: 'left',
+      alignment: 'right',
       hover: true,
       coverTrigger: false
+    });
+
+    const element1 = document.querySelectorAll('.dropdown-trigger1');
+    M.Dropdown.init(element1, {
+      alignment: 'left',
+      hover: true,
+      coverTrigger: false 
     });
 
     this.getNotifications();
@@ -55,6 +64,8 @@ export class ToolbarComponent implements OnInit {
         this.notifications = data.user.notifications.reverse();
         const value = _.filter(this.notifications,['read',false]);
         this.count = value;
+        this.chatList = data.user.chatList;
+        this.messageNotification(this.chatList);
       }, (err) => {
         if(err.error.token === null){
           this.tokenService.deleteToken();
@@ -67,10 +78,36 @@ export class ToolbarComponent implements OnInit {
     return moment(time).fromNow();
   }
 
+  messageTimeFormatter(time){
+    return moment(time).calendar(null,{
+      sameDay:'[Today]',
+      lastDay:'[Yesterday]',
+      lastWeek:'DD/MM/YYYY',
+      sameElse:'DD/MM/YYYY'
+    })
+  }
+
   markAllAsRead() {
     this.peopleService.markAllAsRead().subscribe(
       (data) => {
         this.socket.emit('refresh', {})
       })
+  }
+
+  messageNotification(arr){
+    const msgArr = [];
+    for(let i = 0;i<arr.length;i++){
+      const receiver = arr[i].msgId.messages[arr[i].msgId.messages.length-1];
+      if(this.router.url !==`/chat/${receiver.senderName}`){
+        if(receiver.isRead === false && receiver.receiverName === this.user.username){
+          msgArr.push(1)
+          this.msgCount = _.sum(msgArr);
+        }
+      }
+    }
+  }
+
+  goToChatPage(name){
+    this.router.navigate(['chat',name])
   }
 }

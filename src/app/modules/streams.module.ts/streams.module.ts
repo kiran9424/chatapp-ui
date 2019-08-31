@@ -19,6 +19,11 @@ import { FollowingComponent } from 'src/app/components/following/following.compo
 import { FollowersComponent } from 'src/app/components/followers/followers.component';
 import { NotificationsComponent } from 'src/app/components/notifications/notifications.component';
 import { TopstreamsComponent } from 'src/app/components/topstreams/topstreams.component';
+import { ChatComponent } from 'src/app/components/chat/chat.component';
+import { MessageComponent } from 'src/app/components/message/message.component';
+import { MessageService } from 'src/app/services/message.service';
+import {NgxAutoScrollModule} from "ngx-auto-scroll";
+import { EmojiPickerModule } from 'ng2-emoji-picker';
 
 @NgModule({
   declarations: [
@@ -32,14 +37,19 @@ import { TopstreamsComponent } from 'src/app/components/topstreams/topstreams.co
     FollowingComponent,
     FollowersComponent,
     NotificationsComponent,
-    TopstreamsComponent
+    TopstreamsComponent,
+    ChatComponent,
+    MessageComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    NgxAutoScrollModule,
+    EmojiPickerModule.forRoot() 
+
   ],
   exports: [
     StreamsComponent,
@@ -51,6 +61,7 @@ import { TopstreamsComponent } from 'src/app/components/topstreams/topstreams.co
     AuthGuard,
     PostService,
     PeopleService,
+    MessageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

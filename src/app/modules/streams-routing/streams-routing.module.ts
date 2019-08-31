@@ -8,6 +8,7 @@ import { PeopleComponent } from 'src/app/components/people/people.component';
 import { FollowingComponent } from 'src/app/components/following/following.component';
 import { FollowersComponent } from 'src/app/components/followers/followers.component';
 import { NotificationsComponent } from 'src/app/components/notifications/notifications.component';
+import { ChatComponent } from 'src/app/components/chat/chat.component';
 
 const route: Routes = [
   { path: 'streams', component: StreamsComponent, canActivate: [AuthGuard] },
@@ -15,7 +16,8 @@ const route: Routes = [
   { path: 'people', component: PeopleComponent, canActivate: [AuthGuard] },
   { path: 'people/following', component: FollowingComponent, canActivate: [AuthGuard] },
   { path: 'people/follower', component: FollowersComponent, canActivate: [AuthGuard] },
-  { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard] }
+  { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard] },
+  { path: 'chat/:name', component: ChatComponent, canActivate: [AuthGuard] }
 ]
 @NgModule({
   declarations: [],
